@@ -57,8 +57,14 @@
 						"type": "Expression"
 					},
 					"baseParameters": {
-						"input_path": "@activity('LookupConfig').output.firstRow.notebook_params.input_path",
-						"output_path": "@activity('LookupConfig').output.firstRow.notebook_params.output_path"
+						"input_path": {
+							"value": "@activity('LookupConfig').output.firstRow.notebook_params.input_path",
+							"type": "Expression"
+						},
+						"output_path": {
+							"value": "@activity('LookupConfig').output.firstRow.notebook_params.output_path",
+							"type": "Expression"
+						}
 					}
 				},
 				"linkedServiceName": {
