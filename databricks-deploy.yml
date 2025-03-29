@@ -1,0 +1,38 @@
+trigger:
+  branches:
+    include:
+    - main
+
+variables:
+  - group: DatabricksSecrets  # Securely store tokens and URLs here
+
+stages:
+- stage: Deploy_UAT
+  jobs:
+  - job: DeployNotebooksUAT
+    steps:
+      - checkout: self
+      - script: |
+          pip install databricks-cli
+          databricks workspace import_dir -o databricks-notebooks/ /Shared/devprojectgithub/notebooks/
+        env:
+          DATABRICKS_HOST: $(UAT_DATABRICKS_URL)
+          DATABRICKS_TOKEN: $(UAT_DATABRICKS_TOKEN)
+
+- stage: Deploy_PROD
+  dependsOn: Deploy_UAT
+  condition: succeeded()
+  jobs:
+  - deployment: DeployNotebooksPROD
+    environment: prod
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - script: |
+                pip install databricks-cli
+                databricks workspace import_dir -o databricks-notebooks/ /Shared/devprojectgithub/notebooks/
+              env:
+                DATABRICKS_HOST: $(PROD_DATABRICKS_URL)
+                DATABRICKS_TOKEN: $(PROD_DATABRICKS_TOKEN)
