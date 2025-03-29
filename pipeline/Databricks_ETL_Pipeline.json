@@ -58,11 +58,11 @@
 					},
 					"baseParameters": {
 						"input_path": {
-							"value": "@activity('LookupConfig').output.firstRow.notebook_params.input_path",
+							"value": "@activity('Lookup1').output.firstRow.notebook_params.input_path",
 							"type": "Expression"
 						},
 						"output_path": {
-							"value": "@activity('LookupConfig').output.firstRow.notebook_params.output_path",
+							"value": "@activity('Lookup1').output.firstRow.notebook_params.output_path",
 							"type": "Expression"
 						}
 					}
